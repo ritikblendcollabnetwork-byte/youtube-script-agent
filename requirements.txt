@@ -1,4 +1,3 @@
-crewai
-crewai-tools
 streamlit
+langchain-google-genai
 python-dotenv
