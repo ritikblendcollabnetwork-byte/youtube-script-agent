@@ -5,10 +5,9 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 
 load_dotenv()
 
-st.set_page_config(page_title="YouTube Script AI", page_icon="🎥", layout="wide")
-
+st.set_page_config(page_title="YouTube Script AI", layout="wide")
 st.title("🎥 YouTube Script Generator")
-st.markdown("**Simple Hinglish Script + SEO Generator**")
+st.markdown("**Simple Hinglish Script + SEO**")
 
 with st.sidebar:
     st.header("Settings")
@@ -16,29 +15,21 @@ with st.sidebar:
     if api_key:
         os.environ["GOOGLE_API_KEY"] = api_key
 
-keyword = st.text_input("Keyword Daalo:", placeholder="Chomu Jaipur ki history")
+keyword = st.text_input("Keyword Daalo:", placeholder="Best phone under 20000 2026")
 
-if st.button("🚀 Script Generate Karo", type="primary", use_container_width=True):
+if st.button("🚀 Generate Script", type="primary", use_container_width=True):
     if not keyword:
         st.error("Keyword daal do!")
     elif not os.getenv("GOOGLE_API_KEY"):
-        st.error("API Key daalo sidebar mein!")
+        st.error("API Key daalo!")
     else:
         with st.spinner("Script bana raha hoon..."):
             llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0.75)
             
-            prompt = f"""Topic: {keyword}
-Ek bahut engaging YouTube script likho Hinglish mein.
-Structure:
-- Strong Hook
-- Introduction
-- 4-5 main sections with facts aur storytelling
-- Conclusion + Strong CTA
-
-Script natural aur bolne layak ho."""
-
+            prompt = f"Topic: {keyword}\nEk engaging Hinglish YouTube script likho with strong hook, sections aur CTA."
+            
             response = llm.invoke(prompt)
-            st.success("✅ Script Ban Gaya!")
+            st.success("✅ Ban Gaya!")
             st.markdown(response.content)
             
-            st.download_button("📥 Download Script", response.content, file_name=f"{keyword}.md")
+            st.download_button("📥 Download", response.content, file_name=f"{keyword}.md")
